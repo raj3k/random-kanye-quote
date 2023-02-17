@@ -7,9 +7,17 @@ function App() {
   let twitterUrl = "https://www.twitter.com";
 
   const fetchData = () => {
-    return fetch("https://api.kanye.rest/")
-      .then((response) => response.json())
-      .then((data) => setQuote(data['quote']));
+    fetch("https://api.kanye.rest/")
+      .then((response) => {
+        if (response.status === 200 || response.ok) {
+          return response.json();
+        } else {
+          throw new Error(`HTTP error status: ${response.status}`);
+        }
+      })
+      .then((json) => {
+        setQuote(json["quote"])
+      });
   }
 
   useEffect(() => {
